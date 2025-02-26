@@ -27,10 +27,12 @@ def main():
     dr.implicitly_wait(10)
 
     with open("output.csv", "w") as f:
-        f.write("URL,Emerge,Critical,Warn\n")
+        f.write("URL,Critical,Major,Minor\n")
         for url, creds in Config.IBMC_URL.items():
             try:
                 status = fetch_status(dr, url, creds["username"], creds["password"])
                 f.write(f"{url},{status}\n")
             except Exception as e:
                 print(f"Error: {e}")
+                f.write(f"{url},Error\n")
+    dr.quit()
